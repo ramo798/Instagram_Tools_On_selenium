@@ -44,13 +44,20 @@ for media in mediaList:
             time.sleep(5)
             driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/div[2]/section[1]/span[1]/button/span").click() #fav
             driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/header/div[2]/div[1]/div[2]/button").click() #follow
+            time.sleep(2)
+            
+            #既フォローの場合の処理
+            try:
+                driver.find_element_by_xpath("/html/body/div[4]/div/div/div[3]/button[2]").click()
+            except:
+                pass
 
             time.sleep(5)
             likedCounter += 1
             followcounter += 1
             print("liked {} of {}".format(likedCounter,mediaCounter))
-            # driver.find_element_by_xpath("/html/body/div[3]/div[1]/div/div/a").click()
             driver.find_element_by_css_selector("a.HBoOv.coreSpriteRightPaginationArrow").click()
+            
         except:
             break
     break
