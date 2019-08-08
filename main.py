@@ -2,6 +2,7 @@ from selenium import webdriver
 import time
 from selenium.webdriver.common.keys import Keys
 import os
+import urllib.parse
 
 options = webdriver.ChromeOptions()
 # options.add_argument('--headless')
@@ -20,17 +21,16 @@ passwordField.send_keys(Keys.RETURN)
 
 time.sleep(3)
 
-# ポップアップの存在確認
-try:
-    driver.find_element_by_xpath('/html/body/div[3]/div/div/div[3]/button[2]').click()    
-except:
-    pass
 
-# 検索窓に文字列入力
-driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/input').send_keys("#文字列", Keys.RETURN)
-time.sleep(3)
-driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/input').send_keys(Keys.RETURN)
+tag = "ファインダー越しの私の世界"
+tagserachurl = "https://www.instagram.com/explore/tags/"
+targeturl = tagserachurl + urllib.parse.quote(tag) + "/" #日本語をエンコードしてる
+driver.get(targeturl)
+
+
+
     
+
 
 time.sleep()
 driver.quit()
