@@ -37,6 +37,10 @@ def tagatack(tagname):
         # 次へボタンが表示される間はずっと回る
         while True:
             try:
+                #30秒に一回実行するようにしたいテスト時は削除
+                time.sleep(30)
+
+
                 time.sleep(5)
                 driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/div[2]/section[1]/span[1]/button/span").click() #fav      
                 # driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/header/div[2]/div[1]/div[2]/button").click() #follow
@@ -56,7 +60,8 @@ def tagatack(tagname):
                 print(likedCounter)
 
                 # 実行制限今はタグ毎に30個で制限してる
-                if likedCounter > 1:
+                if likedCounter > 30:
+                    # 結果出力
                     print("#{1} の投稿の{0}個をいいねしました。".format(likedCounter,tagname))
                     break
             
