@@ -11,6 +11,13 @@ driver = webdriver.Chrome(options=options)
 # グローバル変数　favの数が500以下に制御するため
 limitcounter = 0
 
+def tagnametest(tagname):
+    # print(type(tag))
+    print('合計：{}円'.format(tagname))
+    
+
+
+
 def tagatack(tagname):
     tagserachurl = "https://www.instagram.com/explore/tags/"
     targeturl = tagserachurl + urllib.parse.quote(tagname) + "/" #日本語をエンコードしてる
@@ -50,7 +57,7 @@ def tagatack(tagname):
 
                 # 実行制限今はタグ毎に30個で制限してる
                 if likedCounter > 1:
-                    # print("liked {} of {}".format(likedCounter,mediaCounter))
+                    print("#{1} の投稿の{0}個をいいねしました。".format(likedCounter,tagname))
                     break
             
             except:
@@ -77,6 +84,7 @@ if __name__ == '__main__':
     taglist = ["ファインダー越しの私の世界","impression_shots","indy_photolif","photosq_jp","pics_jp"]
     for tag in taglist:
         tagatack(tag)
+        # tagnametest(tag)
 
     driver.quit()
 
