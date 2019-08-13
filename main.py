@@ -8,26 +8,16 @@ options = webdriver.ChromeOptions()
 # options.add_argument('--headless')
 driver = webdriver.Chrome(options=options)
 
-# グローバル変数　favの数が500以下に制御するため
-limitcounter = 0
-
-def tagnametest(tagname):
-    # print(type(tag))
-    print('合計：{}円'.format(tagname))
-    
-
-
-
 def tagatack(tagname):
     tagserachurl = "https://www.instagram.com/explore/tags/"
     targeturl = tagserachurl + urllib.parse.quote(tagname) + "/" #日本語をエンコードしてる
     driver.get(targeturl)
-    time.sleep(5)
+    time.sleep(10)
 
     #画像のリンクが　div._9AhH0　にあるようです。
     mediaList = []
     likedCounter = 0
-    followcounter = 0
+    followCounter = 0
 
     mediaList = driver.find_elements_by_css_selector("div._9AhH0")
     mediaCounter = len(mediaList)
@@ -38,33 +28,36 @@ def tagatack(tagname):
         while True:
             try:
                 #30秒に一回実行するようにしたいテスト時は削除
-                time.sleep(30)
-
-
+                # time.sleep(30)
                 time.sleep(5)
-                driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/div[2]/section[1]/span[1]/button/span").click() #fav      
-                # driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/header/div[2]/div[1]/div[2]/button").click() #follow
-                time.sleep(2)
 
-                #既フォローの場合の処理
-                try:
-                    driver.find_element_by_xpath("/html/body/div[4]/div/div/div[3]/button[2]").click()
-                except:
-                    followcounter += 1
-
-                time.sleep(5)
-                likedCounter += 1
-                
-                # print("liked {} of {}".format(likedCounter,mediaCounter))
-                driver.find_element_by_css_selector("a.HBoOv.coreSpriteRightPaginationArrow").click()
-                print(likedCounter)
-
-                # 実行制限今はタグ毎に30個で制限してる
-                if likedCounter > 30:
+                # いいねの実行処理。今はタグ毎に30個で制限してる
+                if likedCounter < 2:
+                    driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/div[2]/section[1]/span[1]/button/span").click() #fav
+                    likedCounter += 1
+                else:
                     # 結果出力
-                    print("#{1} の投稿の{0}個をいいねしました。".format(likedCounter,tagname))
+                    print("#{1} の投稿の{0}個をいいねしました。{2}人フォローしました。".format(likedCounter,tagname,followCounter))
                     break
-            
+
+                # フォローの実行処理。今はタグ毎に6個制限している
+                if followCounter <= 6:
+                    driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/header/div[2]/div[1]/div[2]/button").click() #follow
+                    followCounter += 1
+                    time.sleep(5)
+                    #既フォローの場合の処理
+                    try:
+                        driver.find_element_by_xpath("/html/body/div[4]/div/div/div[3]/button[2]").click()
+                    except:
+                        pass
+
+                time.sleep(5)
+                
+                
+                # 次へボタンをおす
+                driver.find_element_by_css_selector("a.HBoOv.coreSpriteRightPaginationArrow").click()
+
+
             except:
                 break
         break
@@ -89,7 +82,6 @@ if __name__ == '__main__':
     taglist = ["ファインダー越しの私の世界","impression_shots","indy_photolif","photosq_jp","pics_jp"]
     for tag in taglist:
         tagatack(tag)
-        # tagnametest(tag)
 
     driver.quit()
 
