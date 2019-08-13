@@ -14,6 +14,8 @@ def tagatack(tagname):
     driver.get(targeturl)
     time.sleep(10)
 
+    print("now on #{}".format(tagname))
+
     #画像のリンクが　div._9AhH0　にあるようです。
     mediaList = []
     likedCounter = 0
@@ -28,13 +30,14 @@ def tagatack(tagname):
         while True:
             try:
                 #30秒に一回実行するようにしたいテスト時は削除
-                # time.sleep(30)
-                time.sleep(5)
+                time.sleep(30)
+                # time.sleep(5)
 
                 # いいねの実行処理。今はタグ毎に30個で制限してる
-                if likedCounter < 2:
+                if likedCounter < 30:
                     driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/div[2]/section[1]/span[1]/button/span").click() #fav
                     likedCounter += 1
+                    print("like {}".format(likedCounter))
                 else:
                     # 結果出力
                     print("#{1} の投稿の{0}個をいいねしました。{2}人フォローしました。".format(likedCounter,tagname,followCounter))
@@ -44,6 +47,7 @@ def tagatack(tagname):
                 if followCounter <= 6:
                     driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/header/div[2]/div[1]/div[2]/button").click() #follow
                     followCounter += 1
+                    print("follow {}".format(followCounter))
                     time.sleep(5)
                     #既フォローの場合の処理
                     try:
@@ -71,11 +75,9 @@ if __name__ == '__main__':
     time.sleep(3)
     driver.find_element_by_xpath('//*[@id="react-root"]/section/main/article/div[2]/div[2]/p/a').click()
     time.sleep(3)
-    usernameField = driver.find_element_by_name('username')
-    usernameField.send_keys(os.environ['INSTAID'])
-    passwordField = driver.find_element_by_name('password')
-    passwordField.send_keys(os.environ['INSTAPASS'])
-    passwordField.send_keys(Keys.RETURN)
+    driver.find_element_by_name('username').send_keys(os.environ['INSTAID'])
+    driver.find_element_by_name('password').send_keys(os.environ['INSTAPASS'])
+    driver.find_element_by_name('password').send_keys(Keys.RETURN)
     time.sleep(3)
 
     # taglistの中の順番に実行
@@ -83,5 +85,5 @@ if __name__ == '__main__':
     for tag in taglist:
         tagatack(tag)
 
-    driver.quit()
+    # driver.quit()
 
