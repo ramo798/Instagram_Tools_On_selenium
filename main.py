@@ -44,16 +44,16 @@ def tagatack(tagname):
                     break
 
                 # フォローの実行処理。今はタグ毎に6個制限している
-                if followCounter <= 6:
-                    driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/header/div[2]/div[1]/div[2]/button").click() #follow
-                    followCounter += 1
-                    print("follow {}".format(followCounter))
-                    time.sleep(5)
-                    #既フォローの場合の処理
-                    try:
-                        driver.find_element_by_xpath("/html/body/div[4]/div/div/div[3]/button[2]").click()
-                    except:
-                        pass
+                # if followCounter <= 6:
+                #     driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/article/header/div[2]/div[1]/div[2]/button").click() #follow
+                #     followCounter += 1
+                #     print("follow {}".format(followCounter))
+                #     time.sleep(5)
+                #     #既フォローの場合の処理
+                #     try:
+                #         driver.find_element_by_xpath("/html/body/div[4]/div/div/div[3]/button[2]").click()
+                #     except:
+                #         pass
 
                 time.sleep(5)
                 
